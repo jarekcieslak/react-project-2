@@ -11,3 +11,21 @@ export function fetchPosts() {
   return fetch(`${BASE_URL}/posts`, {headers: AUTH_HEADER})
     .then((res) => res.json())
 }
+
+export function fetchPostDetails(id) {
+  if (id) {
+    return fetch(`${BASE_URL}/posts/${id}`, {headers: AUTH_HEADER})
+      .then((res) => res.json())
+  }
+}
+
+
+export function fetchPostComments(id) {
+  if (id) {
+    return fetch(`${BASE_URL}/posts/${id}/comments`, {headers: AUTH_HEADER})
+      .then((res) => res.json())
+  }
+}
+
+
+

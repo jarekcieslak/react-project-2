@@ -33,9 +33,7 @@ class AppHeader extends React.Component {
               <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
                 <MenuIcon/>
               </IconButton>
-              <Typography variant="title" color="inherit" className={classes.flex}>
-                Readables
-              </Typography>
+              <Typography variant="title" color="inherit" className={classes.flex}>Readables</Typography>
               <Button color="inherit">Login</Button>
             </Toolbar>
           </AppBar>

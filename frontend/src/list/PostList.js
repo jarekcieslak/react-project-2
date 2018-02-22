@@ -27,13 +27,14 @@ class PostList extends React.Component {
     })
   }
 
+
   render() {
     const {classes} = this.props;
 
     return (<div className={classes.root}>
       <Grid container spacing={24}>
         <Grid item xs={12}>
-          <Typography variant="root" component="h1">
+          <Typography variant="headline" component="h1">
             Post List
           </Typography>
         </Grid>

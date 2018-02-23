@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import './App.css';
 import 'typeface-roboto';
-import PostList from "./list/PostList";
+import PostList from "./post-list/PostList";
 import AppHeader from './shared/Header/AppHeader';
 import {Route} from "react-router";
 import PostDetails from "./post-details/PostDetails";
-import {BrowserRouter} from "react-router-dom";
 
 class App extends Component {
 

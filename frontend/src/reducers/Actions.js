@@ -1,0 +1,5 @@
+
+export const POST_LOAD_START = 'POST_LOAD_START';
+export const POST_LOAD_SUCCESS = 'POST_LOAD_SUCCESS';
+export const POST_LOAD_ERROR = 'POST_LOAD_ERROR';
+

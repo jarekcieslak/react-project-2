@@ -1,17 +1,20 @@
-// const API_ID = process.env.REACT_APP_API_ID
-// const APP_KEY = process.env.REACT_APP_APP_KEY
-const BASE_URL = 'http://localhost:3001';
+import {allPostsError, allPostsLoad, allPostsReceived} from "../post-list/PostListActions";
+import {mapJsonToPosts} from "../post-list/PostListMappers";
+import {AUTH_HEADER, BASE_URL} from "../Constants";
 
 
-const AUTH_HEADER = {
-  'Authorization': 'AUTH-TOKEN'
+// POST LIST
+export const fetchAllPosts = () => dispatch => {
+  dispatch(allPostsLoad());
+  fetch(`${BASE_URL}/posts`, {headers: AUTH_HEADER})
+    .then(res => res.json())
+    .then(data => mapJsonToPosts(data))
+    .then(data => new Promise(resolve => setTimeout(() => resolve(dispatch(allPostsReceived(data))), 500)))
+    .catch(error => dispatch(allPostsError()))
 };
 
-export function fetchPosts() {
-  return fetch(`${BASE_URL}/posts`, {headers: AUTH_HEADER})
-    .then((res) => res.json())
-}
 
+// POST DETAILS
 export function fetchPostDetails(id) {
   if (id) {
     return fetch(`${BASE_URL}/posts/${id}`, {headers: AUTH_HEADER})
@@ -19,13 +22,9 @@ export function fetchPostDetails(id) {
   }
 }
 
-
 export function fetchPostComments(id) {
   if (id) {
     return fetch(`${BASE_URL}/posts/${id}/comments`, {headers: AUTH_HEADER})
       .then((res) => res.json())
   }
 }
-
-
-

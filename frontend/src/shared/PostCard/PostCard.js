@@ -29,17 +29,19 @@ const styles = theme => ({
 
 });
 
-function SimpleCard(props) {
-  const {classes, data} = props;
+function PostCard(props) {
+  const {classes, data, index} = props;
+
   return (
     <div>
       <Card className={classes.card}>
-        {/*<p>{JSON.stringify(data)}</p>*/}
-        <CardMedia
-          className={classes.media}
-          image="https://picsum.photos/850/200/?random"
-          title="Contemplative Reptile"
-        />
+        <Link to={`/posts/${data.id}`}>
+          <CardMedia
+            className={classes.media}
+            image={"https://picsum.photos/850/200/?image=" + index + Math.floor(Math.random() * 100)}
+            title="Contemplative Reptile"
+          />
+        </Link>
         <CardContent>
           <Typography className={classes.title} variant="headline" component="h2">{data.title}</Typography>
           <Typography className={classes.body} component="p">{data.body}</Typography>
@@ -56,8 +58,8 @@ function SimpleCard(props) {
   );
 }
 
-SimpleCard.propTypes = {
+PostCard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SimpleCard);
+export default withStyles(styles)(PostCard);

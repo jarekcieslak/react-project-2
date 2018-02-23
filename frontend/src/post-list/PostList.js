@@ -16,10 +16,6 @@ const styles = theme => ({
 });
 
 class PostList extends React.Component {
-  state = {
-    posts: null,
-
-  };
 
   componentDidMount() {
     this.props.dispatch(fetchAllPosts());
@@ -38,10 +34,9 @@ class PostList extends React.Component {
             Post List
           </Typography>
         </Grid>
-
-        {!!this.props.posts && this.props.posts.map((post, index) => <Grid item xs={12} sm={4} key={post.id}>
-          <PostCard index={index} data={post}></PostCard>
-        </Grid>)}
+        {!!this.props.posts &&
+        this.props.posts.map((post, index) =>
+          <Grid item xs={12} sm={6} key={post.id}><PostCard index={index} data={post}></PostCard></Grid>)}
 
         {/*<Grid item xs={6} sm={3}>*/}
         {/*<Paper className={classes.paper}>xs=6 sm=3</Paper>*/}
@@ -72,12 +67,11 @@ class PostList extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const postList = state.postList;
-  // const posts = postList.data ? Object.keys(postList.data).map(key => postList.data[key]) : null;
-  const posts = postList.data ? Object.values(postList.data) : null;
+  const postListState = state.postList;
+  const posts = postListState.data ? Object.values(postListState.data) : null;
   return {
     posts: posts,
-    status: postList.status
+    status: postListState.status
   }
 }
 

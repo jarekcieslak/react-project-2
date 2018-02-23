@@ -7,6 +7,9 @@ import Typography from 'material-ui/Typography';
 import {Link} from "react-router-dom";
 import Comment from 'material-ui-icons/Comment';
 import LikeCounter from "../LikeCounter/LikeCounter";
+import {connect} from "react-redux";
+import {ThumbUp} from "material-ui-icons";
+import {votePost} from "../../api/Api";
 
 const styles = theme => ({
   card: {
@@ -15,9 +18,7 @@ const styles = theme => ({
   media: {
     height: 200,
   },
-  title: {
-
-  },
+  title: {},
   body: {
     marginBottom: 20
   },
@@ -29,37 +30,48 @@ const styles = theme => ({
 
 });
 
-function PostCard(props) {
-  const {classes, data, index} = props;
 
-  return (
-    <div>
-      <Card className={classes.card}>
-        <Link to={`/posts/${data.id}`}>
-          <CardMedia
-            className={classes.media}
-            image={"https://picsum.photos/850/200/?image=" + index + Math.floor(Math.random() * 100)}
-            title="Contemplative Reptile"
-          />
-        </Link>
-        <CardContent>
-          <Typography className={classes.title} variant="headline" component="h2">{data.title}</Typography>
-          <Typography className={classes.body} component="p">{data.body}</Typography>
-          <Typography className={classes.category}>Category: {data.category}, Author: {data.author}, {Date(data.timestamp)} </Typography>
-        </CardContent>
-        <CardActions>
-          <Link to={`/posts/${data.id}`}><Button size="medium" color="primary">Show More</Button></Link>
-          <LikeCounter voteScore={data.voteScore}></LikeCounter>
-          {/*<Button size="small" color="default"><ThumbUp/>&nbsp;{data.voteScore}</Button>*/}
-          <Button size="small" color="default"><Comment/>&nbsp;{data.commentCount}</Button>
-        </CardActions>
-      </Card>
-    </div>
-  );
+class PostCard extends React.Component {
+
+  voteUp = (postId) => {
+    this.props.dispatch(votePost(postId, true));
+  };
+
+
+  render() {
+    const {classes, data, index} = this.props;
+
+    return (
+      <div>
+        <Card className={classes.card}>
+          <Link to={`/posts/${data.id}`}>
+            <CardMedia
+              className={classes.media}
+              image={"https://picsum.photos/850/200/?image=" + index + Math.floor(Math.random() * 100)}
+              title="Contemplative Reptile"
+            />
+          </Link>
+          <CardContent>
+            <Typography className={classes.title} variant="headline" component="h2">{data.title}</Typography>
+            <Typography className={classes.body} component="p">{data.body}</Typography>
+            <Typography className={classes.category}>Category: {data.category},
+              Author: {data.author}, {Date(data.timestamp)} </Typography>
+          </CardContent>
+          <CardActions>
+            <Link to={`/posts/${data.id}`}><Button size="medium" color="primary">Show More</Button></Link>
+            <Button onClick={() => this.voteUp(data.id)} size="small" color="default"><ThumbUp/>&nbsp;{data.voteScore}</Button>
+            <Button onClick={() => this.voteUp(data.id)} size="small" color="default"><Comment/>&nbsp;{data.commentCount}</Button>
+          </CardActions>
+        </Card>
+      </div>
+    );
+  }
+
 }
+
 
 PostCard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(PostCard);
+export default connect()(withStyles(styles)(PostCard));

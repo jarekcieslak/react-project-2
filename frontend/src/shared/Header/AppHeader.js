@@ -7,6 +7,7 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
+import {Link} from "react-router-dom";
 
 const styles = {
   root: {
@@ -19,6 +20,10 @@ const styles = {
     marginLeft: -12,
     marginRight: 20,
   },
+  logoText: {
+    color: '#fff',
+    'text-decoration': 'none'
+  }
 };
 
 class AppHeader extends React.Component {
@@ -33,7 +38,8 @@ class AppHeader extends React.Component {
               <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
                 <MenuIcon/>
               </IconButton>
-              <Typography variant="title" color="inherit" className={classes.flex}>Readables</Typography>
+              <Typography variant="title" color="inherit" className={classes.flex}>
+                <Link className={classes.logoText} to='/'>Readables</Link></Typography>
               <Button color="inherit">Login</Button>
             </Toolbar>
           </AppBar>

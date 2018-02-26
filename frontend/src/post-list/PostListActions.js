@@ -26,7 +26,6 @@ export const allPostsError = (data) => {
 };
 
 export const postVoteSuccess = (data) => {
-  const id = data['id'];
   return {
     type: POST_VOTE_SUCCESS,
     data

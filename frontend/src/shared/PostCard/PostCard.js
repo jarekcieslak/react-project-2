@@ -6,7 +6,6 @@ import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 import {Link} from "react-router-dom";
 import Comment from 'material-ui-icons/Comment';
-import LikeCounter from "../LikeCounter/LikeCounter";
 import {connect} from "react-redux";
 import {ThumbUp} from "material-ui-icons";
 import {votePost} from "../../api/Api";

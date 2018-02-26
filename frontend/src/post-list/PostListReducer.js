@@ -26,13 +26,8 @@ function postListReducer(state = postsListInitialState, action) {
 
     case POST_VOTE_SUCCESS:
       const posts = Object.assign({}, state.data);
-      const modifiedPost = action.data;
-
       const id = action.data.id;
-
       posts[id] = {...posts[id], voteScore: posts[id].voteScore + 1};
-
-      // posts[action.data.id].voteScore += 1;
 
       return {
         ...state,

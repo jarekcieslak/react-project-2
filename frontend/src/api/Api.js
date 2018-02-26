@@ -1,12 +1,7 @@
 import {allPostsError, allPostsLoad, allPostsReceived, postVoteSuccess} from "../post-list/PostListActions";
 import {mapJsonToPosts} from "../post-list/PostListMappers";
 import {AUTH_HEADER, BASE_URL} from "../Constants";
-import {
-  postCommentsReceived,
-  postDetailsError,
-  postDetailsLoad,
-  postDetailsReceived
-} from "../post-details/PostDetailsActions";
+import {postDetailsError, postDetailsLoad, postDetailsReceived} from "../post-details/PostDetailsActions";
 
 
 // POST LIST
@@ -34,18 +29,7 @@ export const fetchPostDetails = (id) => dispatch => {
 
 export const votePost = (id, isVoteUp) => dispatch => {
   if (id) {
-    // return fetch(`${BASE_URL}/posts/${id}`, {
-    //   body: JSON.stringify({
-    //     option: isVoteUp ? 'upVote' : 'downVote'
-    //   }),
-    //   method: 'POST',
-    //   headers: {
-    //     ...AUTH_HEADER,
-    //     'Content-Type': 'application/json'
-    //   }
-    // })
-    //
-    return postData(`${BASE_URL}/posts/${id}`, {option: isVoteUp ? 'upVote' : 'downVote'})
+    return genericPostDataHandler(`${BASE_URL}/posts/${id}`, {option: isVoteUp ? 'upVote' : 'downVote'})
       .then(res => res.json())
       .then(data => {
         return dispatch(postVoteSuccess(data))
@@ -64,7 +48,7 @@ export const votePost = (id, isVoteUp) => dispatch => {
 //
 
 
-function postData(url, data) {
+function genericPostDataHandler(url, data) {
   // Default options are marked with *
   return fetch(url, {
     body: JSON.stringify(data), // must match 'Content-Type' header

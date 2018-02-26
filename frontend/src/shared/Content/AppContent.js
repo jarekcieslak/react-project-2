@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import {Route} from "react-router-dom";
 import PostList from "../../post-list/PostList";
 import PostDetails from "../../post-details/PostDetails";
+import PostCreate from "../../post-create/PostCreate";
 
 
 const drawerWidth = 240;
@@ -58,6 +59,7 @@ export class AppContent extends React.Component {
         <div className={classes.drawerHeader}/>
         <Route exact path="/" render={() => (<PostList/>)}/>
         <Route exact path="/posts" render={() => (<PostList/>)}/>
+        <Route exact path="/post/new" render={() => (<PostCreate/>)}/>
         <Route exact path="/posts/:id" render={() => (<PostDetails/>)}/>
       </main>
     )

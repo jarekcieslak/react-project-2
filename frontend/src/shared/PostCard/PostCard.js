@@ -7,8 +7,10 @@ import Typography from 'material-ui/Typography';
 import {Link} from "react-router-dom";
 import Comment from 'material-ui-icons/Comment';
 import {connect} from "react-redux";
-import {ThumbUp} from "material-ui-icons";
+import {ThumbDown, ThumbUp} from "material-ui-icons";
+import MoreVertIcon from "material-ui-icons/MoreVert";
 import {votePost} from "../../api/Api";
+import {IconButton, Menu, MenuItem} from "material-ui";
 
 const styles = theme => ({
   card: {
@@ -32,13 +34,26 @@ const styles = theme => ({
 
 class PostCard extends React.Component {
 
-  voteUp = (postId) => {
-    this.props.dispatch(votePost(postId, true));
+  state = {
+    menuAnchorEl: null,
+  };
+
+  handleMenuOpen = event => {
+    this.setState({menuAnchorEl: event.currentTarget});
+  };
+
+  handleMenuClose = () => {
+    this.setState({menuAnchorEl: null});
+  };
+
+  vote = (postId, isUpVote) => {
+    this.props.dispatch(votePost(postId, isUpVote));
   };
 
 
   render() {
     const {classes, data, index} = this.props;
+    const {menuAnchorEl} = this.state;
 
     return (
       <div>
@@ -58,8 +73,29 @@ class PostCard extends React.Component {
           </CardContent>
           <CardActions>
             <Link to={`/posts/${data.id}`}><Button size="medium" color="primary">Show More</Button></Link>
-            <Button onClick={() => this.voteUp(data.id)} size="small" color="default"><ThumbUp/>&nbsp;{data.voteScore}</Button>
-            <Button onClick={() => this.voteUp(data.id)} size="small" color="default"><Comment/>&nbsp;{data.commentCount}</Button>
+            <Button size="small" color="default">Likes: {data.voteScore}</Button>
+            <Button onClick={() => this.vote(data.id, true)} size="small" color="default"><ThumbUp/></Button>
+            <Button onClick={() => this.vote(data.id, false)} size="small" color="default"><ThumbDown/></Button>
+            <Button size="small" color="default"><Comment/>&nbsp;{data.commentCount}</Button>
+
+            <IconButton
+              aria-label="More"
+              aria-owns={menuAnchorEl ? 'simple-menu' : null}
+              aria-haspopup="true"
+              onClick={this.handleMenuOpen}
+            >
+              <MoreVertIcon/>
+            </IconButton>
+
+            <Menu
+              id="simple-menu"
+              anchorEl={menuAnchorEl}
+              open={Boolean(menuAnchorEl)}
+              onClose={this.handleMenuClose}>
+              <MenuItem onClick={this.handleMenuClose}>Edit post</MenuItem>
+              <MenuItem onClick={this.handleMenuClose}>Delete post</MenuItem>
+            </Menu>
+
           </CardActions>
         </Card>
       </div>

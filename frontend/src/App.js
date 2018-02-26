@@ -7,8 +7,6 @@ import AppMenu from "./shared/Menu/AppMenu";
 import AppContent from "./shared/Content/AppContent";
 
 
-const drawerWidth = 240;
-
 const styles = theme => ({
     root: {
         flexGrow: 1,

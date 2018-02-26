@@ -30,16 +30,15 @@ class PostDetails extends React.Component {
 
     return (
       <div>
-
         {this.props.status === 'loading' && <CircularProgress className={classes.progress}/>}
         {this.props.status === 'ok' &&
         <div>
           <Grid container justify="center" spacing={24}>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <Paper className={classes.root} elevation={4}>
-              <Typography variant="headline" component="h1">{this.props.details.title}</Typography>
-              <Typography component="p">{this.props.details.body}</Typography>
-              <p>Details: {JSON.stringify(this.props.details)}</p>
+                <Typography variant="headline" component="h1">{this.props.details.title}</Typography>
+                <Typography component="p">{this.props.details.body}</Typography>
+                <p>Details: {JSON.stringify(this.props.details)}</p>
               </Paper>
             </Grid>
 
@@ -61,7 +60,6 @@ class PostDetails extends React.Component {
 
 function mapStateToProps(state) {
   const slice = state.postDetails;
-  console.log(slice);
   return {
     status: slice.status,
     details: slice.data

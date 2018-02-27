@@ -1,5 +1,10 @@
-import {POST_COMMENT_LOAD_ERROR, POST_COMMENT_LOAD_START, POST_COMMENT_LOAD_SUCCESS} from "../PostDetailsActions";
-import {POST_ADDCOMMENT_SUCCESS} from "./PostCommentActions";
+import {
+    POST_COMMENT_LOAD_ERROR,
+    POST_COMMENT_LOAD_START,
+    POST_COMMENT_LOAD_SUCCESS,
+    POST_DELCOMMENT_LOAD_SUCCESS
+} from "../PostDetailsActions";
+import {POST_ADDCOMMENT_SUCCESS, POST_VOTECOMMENT_SUCCESS} from "./PostCommentActions";
 
 const postCommentsInitialState = {
     data: null,
@@ -27,9 +32,25 @@ function postCommentsReducer(state = postCommentsInitialState, action) {
                 status: 'ok'
             };
         case POST_ADDCOMMENT_SUCCESS:
+            const comments = {...state.data};
+            comments[action.data.id] = action.data;
             return {
                 ...state,
-                data: [...state.data, action.data]
+                data: comments
+            };
+        case POST_VOTECOMMENT_SUCCESS:
+            const data = {...state.data};
+            data[action.data.id] = action.data;
+            return {
+                ...state,
+                data
+            };
+        case POST_DELCOMMENT_LOAD_SUCCESS:
+            let data2 = {...state.data};
+            delete data2[action.data.id];
+            return {
+                ...state,
+                data: data2
             };
 
         default:

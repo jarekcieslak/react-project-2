@@ -5,6 +5,9 @@ import {
     postCommentsError,
     postCommentsLoad,
     postCommentsReceived,
+    postDeleteCommentError,
+    postDeleteCommentLoad,
+    postDeleteCommentReceived,
     postDetailsError,
     postDetailsLoad,
     postDetailsReceived
@@ -14,7 +17,11 @@ import {
     postAddCommentError,
     postAddCommentLoad,
     postAddCommentReceived,
+    postVoteCommentError,
+    postVoteCommentLoad,
+    postVoteCommentReceived,
 } from "../post-details/comments/PostCommentActions";
+import {mapJsonToComments} from "../post-details/comments/PostCommentsMapper";
 
 
 // LIST
@@ -57,6 +64,7 @@ export const fetchPostComments = (id) => dispatch => {
         dispatch(postCommentsLoad());
         return fetch(`${BASE_URL}/posts/${id}/comments`, {headers: AUTH_HEADER})
             .then((res) => res.json())
+            .then(data => mapJsonToComments(data))
             .then(data => new Promise(resolve => setTimeout(() => resolve(dispatch(postCommentsReceived(data))), 500)))
             .catch(error => dispatch(postCommentsError()))
     }
@@ -79,6 +87,26 @@ export const postNewComment = (postId, comment, author) => dispatch => {
                 console.log(error);
                 dispatch(postAddCommentError())
             })
+    }
+};
+
+
+export const voteComent = (id, isVoteUp) => dispatch => {
+    if (id) {
+        dispatch(postVoteCommentLoad(id));
+        return genericPostDataHandler(`${BASE_URL}/comments/${id}`, {option: isVoteUp ? 'upVote' : 'downVote'})
+            .then(res => res.json())
+            .then(data => dispatch(postVoteCommentReceived(data)))
+            .catch(error => dispatch(postVoteCommentError()))
+    }
+};
+export const deleteComment = (id) => dispatch => {
+    if (id) {
+        dispatch(postDeleteCommentLoad());
+        return fetch(`${BASE_URL}/comments/${id}`, {method: 'DELETE', headers: AUTH_HEADER})
+            .then((res) => res.json())
+            .then(data => dispatch(postDeleteCommentReceived(data)))
+            .catch(error => dispatch(postDeleteCommentError()))
     }
 };
 

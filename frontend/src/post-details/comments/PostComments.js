@@ -2,7 +2,7 @@ import React from "react";
 import {Divider, Grid, Typography} from "material-ui";
 import PostCommentAdd from "./PostCommentAdd";
 import PostCommentItem from "./PostCommentItem";
-import {fetchPostComments} from "../../api/Api";
+import {deleteComment, fetchPostComments, voteComent} from "../../api/Api";
 import ErrorMessage from "../../shared/ErrorMessage/ErrorMessage";
 import {connect} from "react-redux";
 import LoadingSpinner from "../../shared/LoadingSpinner/LoadingSpinner";
@@ -14,7 +14,11 @@ export class PostComments extends React.Component {
     }
 
     vote = (id, isUpVote) => {
-        console.log('voting comment', id)
+        this.props.dispatch(voteComent(id, isUpVote));
+    };
+
+    delete = (id) => {
+        this.props.dispatch(deleteComment(id));
     };
 
     render() {
@@ -26,7 +30,8 @@ export class PostComments extends React.Component {
                 <Divider/>
                 {status === 'ok' && <PostCommentAdd postId={postId}></PostCommentAdd>}
                 {status === 'ok' && comments.map(comment => (
-                    <PostCommentItem key={comment.id} data={comment} vote={this.vote}></PostCommentItem>
+                    <PostCommentItem key={comment.id} data={comment} vote={this.vote}
+                                     delete={this.delete}></PostCommentItem>
                 ))}
                 {status === 'loading' && <LoadingSpinner></LoadingSpinner>}
                 {status === 'error' && <ErrorMessage what="comments"></ErrorMessage>}
@@ -35,12 +40,10 @@ export class PostComments extends React.Component {
     }
 }
 
-
 function mapStateToProps(state) {
     const slice = state.postComments;
-    console.log(slice);
     return {
-        comments: slice.data,
+        comments: slice.data ? Object.values(slice.data) : null,
         status: slice.status
     };
 }

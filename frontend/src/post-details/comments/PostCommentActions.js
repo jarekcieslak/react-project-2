@@ -28,7 +28,7 @@ export const postAddCommentError = (data) => {
 };
 
 
-export const postVoteCommentLoad = () => {
+export const postVoteCommentLoad = (id) => {
     return {
         type: POST_VOTECOMMENT_START,
     }

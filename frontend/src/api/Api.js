@@ -10,7 +10,7 @@ import {
   postDetailsReceived
 } from "../post-details/PostDetailsActions";
 import {guid} from "../utils/uuid";
-import {postAddCommentError, postAddCommentLoad, postAddCommentReceived,} from "../post-details/PostCommentAddActions";
+import {postAddCommentError, postAddCommentLoad, postAddCommentReceived,} from "../post-details/comments/PostCommentActions";
 
 
 // LIST

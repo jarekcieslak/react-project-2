@@ -1,10 +1,10 @@
 import React from "react";
 import {Button, Divider, Paper} from "material-ui";
 import {ThumbDown, ThumbUp} from "material-ui-icons";
-import DateFormat from "../shared/DateFormat/DateFormat";
+import DateFormat from "../../shared/Date/Date";
 
 
-export class PostComment extends React.Component {
+export class PostCommentItem extends React.Component {
 
   vote = (id, isUpVote) => {
     console.log('voting comment', id)
@@ -27,4 +27,4 @@ export class PostComment extends React.Component {
   }
 }
 
-export default PostComment;
+export default PostCommentItem;

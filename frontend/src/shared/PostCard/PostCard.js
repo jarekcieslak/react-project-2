@@ -11,7 +11,7 @@ import {ThumbDown, ThumbUp} from "material-ui-icons";
 import MoreVertIcon from "material-ui-icons/MoreVert";
 import {votePost} from "../../api/Api";
 import {IconButton, Menu, MenuItem} from "material-ui";
-import DateFormat from "../DateFormat/DateFormat";
+import DateFormat from "../Date/Date";
 
 const styles = theme => ({
   card: {

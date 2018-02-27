@@ -7,7 +7,7 @@ import {
   POST_LOAD_SUCCESS
 } from "./PostDetailsActions";
 import {POST_VOTE_SUCCESS} from "../post-list/PostListActions";
-import {POST_ADDCOMMENT_SUCCESS} from "./PostCommentAddActions";
+import {POST_ADDCOMMENT_SUCCESS} from "./comments/PostCommentActions";
 
 const postDetailsInitialState = {
   status: null,

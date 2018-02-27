@@ -1,5 +1,5 @@
 import React from "react";
-import {fetchPostComments, fetchPostDetails, votePost} from "../api/Api";
+import {fetchPostDetails, votePost} from "../api/Api";
 import {connect} from "react-redux";
 import {
   Button,
@@ -16,11 +16,11 @@ import {
 } from "material-ui";
 import {withRouter} from "react-router";
 import {ThumbDown, ThumbUp} from "material-ui-icons";
-import PostComment from "./PostComment";
-import DateFormat from "../shared/DateFormat/DateFormat";
+import DateFormat from "../shared/Date/Date";
 import MoreVertIcon from "material-ui-icons/MoreVert";
-import PostCommentAdd from "./PostCommentAdd";
 import ErrorMessage from "../shared/ErrorMessage/ErrorMessage";
+import PostComments from "./comments/PostComments";
+
 
 const styles = theme => ({
   root: {
@@ -43,6 +43,7 @@ class PostDetails extends React.Component {
   state = {
     menuAnchorEl: null,
   };
+
   handleMenuOpen = event => {
     this.setState({menuAnchorEl: event.currentTarget});
   };
@@ -54,7 +55,6 @@ class PostDetails extends React.Component {
   componentDidMount() {
     const postId = this.props.match.params.id;
     this.props.dispatch(fetchPostDetails(postId));
-    this.props.dispatch(fetchPostComments(postId));
   }
 
   vote = (postId, isUpVote) => {
@@ -62,13 +62,13 @@ class PostDetails extends React.Component {
   };
 
   render() {
-    const {classes, details, comments, statusComments} = this.props;
+    const {classes, details, status} = this.props;
     const {menuAnchorEl} = this.state;
 
     return (
       <div>
-        {this.props.status === 'loading' && <CircularProgress className={classes.progress}/>}
-        {this.props.status === 'ok' &&
+        {status === 'loading' && <CircularProgress className={classes.progress}/>}
+        {status === 'ok' &&
         <div>
           <Grid container justify="center" spacing={24}>
             <Grid item xs={12}>
@@ -98,7 +98,6 @@ class PostDetails extends React.Component {
                 >
                   <MoreVertIcon/>
                 </IconButton>
-
                 <Menu
                   id="simple-menu"
                   anchorEl={menuAnchorEl}
@@ -109,20 +108,11 @@ class PostDetails extends React.Component {
                 </Menu>
               </Paper>
             </Grid>
-            <Grid item xs={12}>
-              <br/><br/>
-              <Typography variant="title" component="h2">Comments:</Typography><br/>
-              <Divider/>
-              <PostCommentAdd postId={details.id}></PostCommentAdd>
-              {
-                statusComments === 'ok' && comments.map(comment => (
-                  <PostComment key={comment.id} data={comment}></PostComment>))
-              }
-              {statusComments === 'error' && <ErrorMessage what="comments"></ErrorMessage>}
-            </Grid>
+
+            <PostComments postId={details.id} > </PostComments>
           </Grid>
         </div>}
-        {this.props.status === 'error' && <ErrorMessage what="post details"></ErrorMessage>}
+        {status === 'error' && <ErrorMessage what="post details"></ErrorMessage>}
       </div>)
 
   }
@@ -132,9 +122,7 @@ function mapStateToProps(state) {
   const slice = state.postDetails;
   return {
     status: slice.status,
-    details: slice.data,
-    comments: slice.comments,
-    statusComments: slice.statusComments
+    details: slice.data
   };
 }
 

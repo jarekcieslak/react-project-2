@@ -1,5 +1,4 @@
 import React from "react";
-import {fetchPostDetails} from "../api/Api";
 import {connect} from "react-redux";
 import {Button, CircularProgress, Paper, Typography, withStyles} from "material-ui";
 import {withRouter} from "react-router";

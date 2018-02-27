@@ -1,10 +1,19 @@
 import {allPostsError, allPostsLoad, allPostsReceived, postVoteSuccess} from "../post-list/PostListActions";
 import {mapJsonToPosts} from "../post-list/PostListMappers";
 import {AUTH_HEADER, BASE_URL} from "../Constants";
-import {postDetailsError, postDetailsLoad, postDetailsReceived} from "../post-details/PostDetailsActions";
+import {
+  postCommentsError,
+  postCommentsLoad,
+  postCommentsReceived,
+  postDetailsError,
+  postDetailsLoad,
+  postDetailsReceived
+} from "../post-details/PostDetailsActions";
+import {guid} from "../utils/uuid";
+import {postAddCommentError, postAddCommentLoad, postAddCommentReceived,} from "../post-details/PostCommentAddActions";
 
 
-// POST LIST
+// LIST
 export const fetchAllPosts = () => dispatch => {
   dispatch(allPostsLoad());
   return fetch(`${BASE_URL}/posts`, {headers: AUTH_HEADER})
@@ -15,7 +24,7 @@ export const fetchAllPosts = () => dispatch => {
 };
 
 
-// POST DETAILS
+// DETAILS
 export const fetchPostDetails = (id) => dispatch => {
   if (id) {
     dispatch(postDetailsLoad());
@@ -38,14 +47,33 @@ export const votePost = (id, isVoteUp) => dispatch => {
 };
 
 
-// // POST COMMENTS
-// export function fetchPostComments(id) {
-//   if (id) {
-//     return fetch(`${BASE_URL}/posts/${id}/comments`, {headers: AUTH_HEADER})
-//       .then((res) => res.json())
-//   }
-// }
-//
+// COMMENTS
+export const fetchPostComments = (id) => dispatch => {
+  if (id) {
+    dispatch(postCommentsLoad());
+    return fetch(`${BASE_URL}/posts/${id}/comments`, {headers: AUTH_HEADER})
+      .then((res) => res.json())
+      .then(data => dispatch(postCommentsReceived(data)))
+      .catch(error => dispatch(postCommentsError()))
+  }
+};
+
+export const postNewComment = (postId, comment, author) => dispatch => {
+  if (postId && comment && author) {
+    dispatch(postAddCommentLoad());
+    return genericPostDataHandler(`${BASE_URL}/comments`,
+      {
+        id: guid(),
+        timestamp: Date.now(),
+        body: comment,
+        author: author,
+        parentId: postId
+      })
+      .then(res => res.json())
+      .then(data => dispatch(postAddCommentReceived(data)))
+      .catch(error => dispatch(postAddCommentError()))
+  }
+};
 
 
 function genericPostDataHandler(url, data) {

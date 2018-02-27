@@ -87,7 +87,7 @@ class PostList extends React.Component {
           </form>
         </Grid>
         {!!this.props.posts && this.props.posts.map((post, index) =>
-          <Grid item xs={12} sm={6} key={post.id}><PostCard index={index} data={post}></PostCard></Grid>)}
+          <Grid item md={6} sm={12} xs={12} key={post.id}><PostCard index={index} data={post}></PostCard></Grid>)}
       </Grid>
       }
 

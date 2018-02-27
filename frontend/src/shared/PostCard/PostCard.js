@@ -11,6 +11,7 @@ import {ThumbDown, ThumbUp} from "material-ui-icons";
 import MoreVertIcon from "material-ui-icons/MoreVert";
 import {votePost} from "../../api/Api";
 import {IconButton, Menu, MenuItem} from "material-ui";
+import DateFormat from "../DateFormat/DateFormat";
 
 const styles = theme => ({
   card: {
@@ -58,7 +59,7 @@ class PostCard extends React.Component {
     return (
       <div>
         <Card className={classes.card}>
-          <Link to={`/posts/${data.id}`}>
+          <Link to={`/${data.category}/${data.id}`}>
             <CardMedia
               className={classes.media}
               image={"https://picsum.photos/850/200/?image=" + index + Math.floor(Math.random() * 100)}
@@ -69,10 +70,10 @@ class PostCard extends React.Component {
             <Typography className={classes.title} variant="headline" component="h2">{data.title}</Typography>
             <Typography className={classes.body} component="p">{data.body}</Typography>
             <Typography className={classes.category}>Category: {data.category},
-              Author: {data.author}, {Date(data.timestamp)} </Typography>
+              Author: {data.author}, <DateFormat time={data.timestamp}/></Typography>
           </CardContent>
           <CardActions>
-            <Link to={`/posts/${data.id}`}><Button size="medium" color="primary">Show More</Button></Link>
+            <Link to={`/${data.category}/${data.id}`}><Button size="medium" color="primary">Show More</Button></Link>
             <Button size="small" color="default">Likes: {data.voteScore}</Button>
             <Button onClick={() => this.vote(data.id, true)} size="small" color="default"><ThumbUp/></Button>
             <Button onClick={() => this.vote(data.id, false)} size="small" color="default"><ThumbDown/></Button>

@@ -6,7 +6,6 @@ export const POST_COMMENT_LOAD_START = 'POST_COMMENT_LOAD_START';
 export const POST_COMMENT_LOAD_SUCCESS = 'POST_COMMENT_LOAD_SUCCESS';
 export const POST_COMMENT_LOAD_ERROR = 'POST_COMMENT_LOAD_ERROR';
 
-
 export const postDetailsLoad = () => {
   return {
     type: POST_LOAD_START,

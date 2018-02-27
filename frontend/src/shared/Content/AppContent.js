@@ -1,7 +1,7 @@
 import React from 'react';
 import {withStyles} from 'material-ui/styles';
 import classNames from 'classnames';
-import {Route} from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
 import PostList from "../../post-list/PostList";
 import PostDetails from "../../post-details/PostDetails";
 import PostCreate from "../../post-create/PostCreate";
@@ -57,10 +57,12 @@ export class AppContent extends React.Component {
         [classes[`contentShift-left`]]: menuOpen
       })}>
         <div className={classes.drawerHeader}/>
-        <Route exact path="/" render={() => (<PostList/>)}/>
-        <Route exact path="/posts" render={() => (<PostList/>)}/>
-        <Route exact path="/post/new" render={() => (<PostCreate/>)}/>
-        <Route exact path="/posts/:id" render={() => (<PostDetails/>)}/>
+        <Switch>
+          <Route exact path="/" render={() => (<PostList/>)}/>
+          <Route exact path="/posts" render={() => (<PostList/>)}/>
+          <Route exact path="/post/new" render={() => (<PostCreate/>)}/>
+          <Route exact path="/:category/:id" render={() => (<PostDetails/>)}/>
+        </Switch>
       </main>
     )
   }

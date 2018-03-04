@@ -1,3 +1,11 @@
 body {
     font-family: 'Roboto', Arial, sans-serif;
 }
+
+.pull-right {
+    float: right;
+}
+
+.pull-left {
+    float: left;
+}

@@ -2,6 +2,11 @@ export const POST_LOAD_START = 'POST_LOAD_START';
 export const POST_LOAD_SUCCESS = 'POST_LOAD_SUCCESS';
 export const POST_LOAD_ERROR = 'POST_LOAD_ERROR';
 
+export const POST_DELETE_LOAD_START = 'POST_DELETE_LOAD_START';
+export const POST_DELETE_LOAD_SUCCESS = 'POST_DELETE_LOAD_SUCCESS';
+export const POST_DELETE_LOAD_ERROR = 'POST_DELETE_LOAD_ERROR';
+
+
 export const POST_COMMENT_LOAD_START = 'POST_COMMENT_LOAD_START';
 export const POST_COMMENT_LOAD_SUCCESS = 'POST_COMMENT_LOAD_SUCCESS';
 export const POST_COMMENT_LOAD_ERROR = 'POST_COMMENT_LOAD_ERROR';
@@ -12,47 +17,45 @@ export const POST_DELCOMMENT_LOAD_ERROR = 'POST_DELCOMMENT_LOAD_ERROR';
 
 
 export const postDetailsLoad = () => {
-  return {
-    type: POST_LOAD_START,
-  }
+    return {
+        type: POST_LOAD_START,
+    }
 };
 
 export const postDetailsReceived = (data) => {
-  return {
-    type: POST_LOAD_SUCCESS,
-    data
-  }
+    return {
+        type: POST_LOAD_SUCCESS,
+        data
+    }
 };
 
 export const postDetailsError = (data) => {
-  return {
-    type: POST_LOAD_ERROR,
-    data: null
-  }
+    return {
+        type: POST_LOAD_ERROR,
+        data: null
+    }
 };
 
 
 export const postCommentsLoad = () => {
-  return {
-    type: POST_COMMENT_LOAD_START,
-  }
+    return {
+        type: POST_COMMENT_LOAD_START,
+    }
 };
 
 export const postCommentsReceived = (data) => {
-  return {
-    type: POST_COMMENT_LOAD_SUCCESS,
-    data
-  }
+    return {
+        type: POST_COMMENT_LOAD_SUCCESS,
+        data
+    }
 };
 
 export const postCommentsError = (data) => {
-  return {
-    type: POST_COMMENT_LOAD_ERROR,
-    data: null
-  }
+    return {
+        type: POST_COMMENT_LOAD_ERROR,
+        data: null
+    }
 };
-
-
 
 
 export const postDeleteCommentLoad = () => {
@@ -75,6 +78,26 @@ export const postDeleteCommentError = (data) => {
     }
 };
 
+
+export const postDeleteLoad = () => {
+    return {
+        type: POST_DELETE_LOAD_START,
+    }
+};
+
+export const postDeleteReceived = (data) => {
+    return {
+        type: POST_DELETE_LOAD_SUCCESS,
+        data
+    }
+};
+
+export const postDeleteError = (data) => {
+    return {
+        type: POST_DELETE_LOAD_ERROR,
+        data: null
+    }
+};
 
 
 

@@ -20,6 +20,7 @@ const styles = theme => ({
     formControl: {
         margin: theme.spacing.unit,
         minWidth: 120,
+        float: 'right'
     },
     selectEmpty: {
         marginTop: theme.spacing.unit * 2,
@@ -52,21 +53,23 @@ class PostList extends React.Component {
 
             {this.props.status === 'ok' &&
             <Grid container spacing={24}>
-                <Grid item xs={12}>
+                <Grid item xs={9}>
                     <Typography variant="headline" component="h1">
                         Post List &nbsp;&nbsp;&nbsp;&nbsp;<Link to='/post/new'><Button>Create post</Button></Link>
                     </Typography>
+                </Grid>
+                <Grid xs={3} alignContent='flex-end' alignItems='flex-end'>
                     <form autoComplete="off">
                         <FormControl className={classes.formControl}>
                             <InputLabel htmlFor="sort-by">Sort by</InputLabel>
                             <Select
+                                autoWidth={'true'}
                                 value={this.state.sortBy}
                                 onChange={this.handleSort}
                                 inputProps={{
                                     name: 'sortBy',
                                     id: 'sort-by',
-                                }}
-                            >
+                                }}>
                                 <MenuItem value=""><em>None</em></MenuItem>
                                 <MenuItem value={1}>Likes (desc)</MenuItem>
                                 <MenuItem value={2}>Likes(asc)</MenuItem>
@@ -76,6 +79,8 @@ class PostList extends React.Component {
                         </FormControl>
                     </form>
                 </Grid>
+
+
                 {!!this.props.posts && this.props.posts.map((post, index) =>
                     <Grid item md={6} sm={12} xs={12} key={post.id}><PostCard index={index}
                                                                               data={post}></PostCard></Grid>)}

@@ -8,6 +8,9 @@ import {
     postDeleteCommentError,
     postDeleteCommentLoad,
     postDeleteCommentReceived,
+    postDeleteError,
+    postDeleteLoad,
+    postDeleteReceived,
     postDetailsError,
     postDetailsLoad,
     postDetailsReceived
@@ -22,6 +25,7 @@ import {
     postVoteCommentReceived,
 } from "../post-details/comments/PostCommentActions";
 import {mapJsonToComments} from "../post-details/comments/PostCommentsMapper";
+import {postAddError, postAddLoad, postAddReceived} from "../post-create/PostCreateActions";
 
 
 // LIST
@@ -46,6 +50,36 @@ export const fetchPostDetails = (id) => dispatch => {
             .catch(error => dispatch(postDetailsError()))
     }
 };
+
+export const deletePost = (id) => dispatch => {
+    if (id) {
+        dispatch(postDeleteLoad());
+        return fetch(`${BASE_URL}/posts/${id}`, {method: 'DELETE', headers: AUTH_HEADER})
+            .then((res) => res.json())
+            .then(data => {dispatch(postDeleteReceived(data))})
+            .catch(error => dispatch(postDeleteError()))
+    }
+};
+
+export const createPost = (data) => dispatch => {
+    if (data) {
+        dispatch(postAddLoad());
+
+        return genericPostDataHandler(`${BASE_URL}/posts`,
+            {
+                id: guid(),
+                timestamp: Date.now(),
+                title: data.title,
+                body: data.body,
+                author: data.author,
+                category: data.category
+            })
+            .then(res => res.json())
+            .then(data => dispatch(postAddReceived(data)))
+            .catch(error => dispatch(postAddError()))
+    }
+};
+
 
 export const votePost = (id, isVoteUp) => dispatch => {
     if (id) {
@@ -127,3 +161,11 @@ function genericPostDataHandler(url, data) {
         referrer: 'no-referrer', // *client
     })
 }
+
+
+export const Api = {
+    fetchAllPosts: fetchAllPosts,
+    fetchPostDetails: fetchPostDetails,
+    addPost: (data) => createPost(data),
+    deletePost: (id) => deletePost(id)
+};

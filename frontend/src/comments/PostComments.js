@@ -2,7 +2,7 @@ import React from "react";
 import {Divider, Grid, Typography} from "material-ui";
 import PostCommentForm from "./PostCommentForm";
 import PostCommentItem from "./PostCommentItem";
-import {deleteComment, fetchPostComments, voteComment} from "../api/Api";
+import {Api} from "../api/Api";
 import ErrorMessage from "../shared/ErrorMessage/ErrorMessage";
 import {connect} from "react-redux";
 import LoadingSpinner from "../shared/LoadingSpinner/LoadingSpinner";
@@ -10,15 +10,15 @@ import LoadingSpinner from "../shared/LoadingSpinner/LoadingSpinner";
 export class PostComments extends React.Component {
 
     componentDidMount() {
-        this.props.dispatch(fetchPostComments(this.props.postId));
+        this.props.dispatch(Api.fetchPostComments(this.props.postId));
     }
 
     vote = (id, isUpVote) => {
-        this.props.dispatch(voteComment(id, isUpVote));
+        this.props.dispatch(Api.voteComment(id, isUpVote));
     };
 
     delete = (id) => {
-        this.props.dispatch(deleteComment(id));
+        this.props.dispatch(Api.deleteComment(id));
     };
 
     render() {

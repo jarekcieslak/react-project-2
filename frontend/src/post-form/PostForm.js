@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {Button, FormControl, InputLabel, MenuItem, Paper, Select, TextField, Typography, withStyles} from "material-ui";
 import {withRouter} from "react-router";
-import {Api, fetchPostDetails} from "../api/Api";
+import {Api} from "../api/Api";
 import LoadingSpinner from "../shared/LoadingSpinner/LoadingSpinner";
 
 
@@ -71,7 +71,7 @@ class PostForm extends React.Component {
     componentDidMount() {
         this.props.dispatch(Api.fetchAllCategories());
         if (this.isEdit && this.params.id) {
-            this.props.dispatch(fetchPostDetails(this.params.id));
+            this.props.dispatch(Api.fetchPostDetails(this.params.id));
         }
     };
 
@@ -89,8 +89,7 @@ class PostForm extends React.Component {
 
     render() {
         let {classes, categories, categoriesStatus} = this.props;
-        const isEdit = this.props.match.url.indexOf('edit') !== -1;
-
+        
         return (
             <div>
                 {categoriesStatus === 'loading' && (<LoadingSpinner></LoadingSpinner>)}

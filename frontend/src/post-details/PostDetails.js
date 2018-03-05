@@ -1,5 +1,5 @@
 import React from "react";
-import {Api, fetchPostDetails, votePost} from "../api/Api";
+import {Api} from "../api/Api";
 import {connect} from "react-redux";
 import {Button, CardMedia, Divider, Grid, IconButton, Menu, MenuItem, Paper, Typography, withStyles} from "material-ui";
 import {withRouter} from "react-router";
@@ -51,11 +51,11 @@ class PostDetails extends React.Component {
 
     componentDidMount() {
         const postId = this.props.match.params.id;
-        this.props.dispatch(fetchPostDetails(postId));
+        this.props.dispatch(Api.fetchPostDetails(postId));
     }
 
     votePost = (postId, isUpVote) => {
-        this.props.dispatch(votePost(postId, isUpVote));
+        this.props.dispatch(Api.votePost(postId, isUpVote));
     };
 
     render() {
@@ -76,7 +76,7 @@ class PostDetails extends React.Component {
                             <Paper className={classes.root} elevation={4}>
                                 <CardMedia
                                     className={classes.media}
-                                    image={"https://picsum.photos/800/200/?image=" + Math.floor(Math.random() * 100)}
+                                    image={"https://picsum.photos/1400/400/?image=40" }
                                     title="Contemplative Reptile"
                                 />
                                 <br/>

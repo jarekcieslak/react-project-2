@@ -39,7 +39,9 @@ import {
 import {allCategoriesError, allCategoriesLoad, allCategoriesReceived} from "../categories/CategoriesActions";
 
 
-// LIST
+// GET /posts
+// USAGE:
+//     Get all of the posts. Useful for the main page when no category is selected.
 export const fetchAllPosts = () => dispatch => {
     dispatch(allPostsLoad());
     return fetch(`${BASE_URL}/posts`, {headers: AUTH_HEADER})
@@ -50,7 +52,9 @@ export const fetchAllPosts = () => dispatch => {
 };
 
 
-// DETAILS
+// GET /posts/:id
+// USAGE:
+//     Get the details of a single post
 export const fetchPostDetails = (id) => dispatch => {
     if (id) {
         dispatch(postDetailsLoad());
@@ -62,6 +66,10 @@ export const fetchPostDetails = (id) => dispatch => {
     }
 };
 
+// DELETE /posts/:id
+// USAGE:
+//     Sets the deleted flag for a post to 'true'.
+//     Sets the parentDeleted flag for all child comments to 'true'.
 export const deletePost = (id) => dispatch => {
     if (id) {
         dispatch(postDeleteLoad());
@@ -74,6 +82,17 @@ export const deletePost = (id) => dispatch => {
     }
 };
 
+// POST /posts
+// USAGE:
+//     Add a new post
+//
+// PARAMS:
+//     id - UUID should be fine, but any unique id will work
+// timestamp - timestamp in whatever format you like, you can use Date.now() if you like
+// title - String
+// body - String
+// author - String
+// category: Any of the categories listed in categories.js. Feel free to extend this list as you desire.
 export const createPost = (data) => dispatch => {
     if (data) {
         dispatch(postAddLoad());
@@ -127,7 +146,9 @@ export const votePost = (id, isVoteUp) => dispatch => {
 };
 
 
-// COMMENTS
+// GET /posts/:id/comments
+// USAGE:
+//     Get all the comments for a single post
 export const fetchPostComments = (id) => dispatch => {
     if (id) {
         dispatch(postCommentsLoad());
@@ -139,6 +160,16 @@ export const fetchPostComments = (id) => dispatch => {
     }
 };
 
+// POST /comments
+// USAGE:
+//     Add a comment to a post
+//
+// PARAMS:
+//     id: Any unique ID. As with posts, UUID is probably the best here.
+//     timestamp: timestamp. Get this however you want.
+//     body: String
+// author: String
+// parentId: Should match a post id in the database.
 export const postNewComment = (postId, comment, author) => dispatch => {
     if (postId && comment && author) {
         dispatch(postAddCommentLoad());
@@ -179,7 +210,11 @@ export const updateComment = (commentId, body) => dispatch => {
     }
 };
 
-
+// POST /comments/:id
+// USAGE:
+//     Used for voting on a comment.
+//     PARAMS:
+// option - String: Either "upVote" or "downVote"
 export const voteComment = (id, isVoteUp) => dispatch => {
     if (id) {
         dispatch(postVoteCommentLoad(id));
@@ -189,6 +224,11 @@ export const voteComment = (id, isVoteUp) => dispatch => {
             .catch(error => dispatch(postVoteCommentError()))
     }
 };
+
+
+// DELETE /comments/:id
+// USAGE:
+//     Sets a comment's deleted flag to 'true'
 export const deleteComment = (id) => dispatch => {
     if (id) {
         dispatch(postDeleteCommentLoad());
@@ -230,7 +270,10 @@ function genericPutDataHandler(url, data) {
 }
 
 
-// LIST
+// GET /categories
+// USAGE:
+//     Get all of the categories available for the app. List is found in categories.js.
+//     Feel free to extend this list as you desire.
 export const fetchAllCategories = () => dispatch => {
     dispatch(allCategoriesLoad());
     return fetch(`${BASE_URL}/categories`, {headers: AUTH_HEADER})
@@ -243,12 +286,18 @@ export const fetchAllCategories = () => dispatch => {
 export const Api = {
     fetchAllPosts: fetchAllPosts,
     fetchPostDetails: fetchPostDetails,
+
     fetchAllCategories: () => fetchAllCategories(),
 
     addPost: (data) => createPost(data),
     editPost: (id, data) => editPost(id, data),
     deletePost: (id) => deletePost(id),
+    votePost: (id, isVoteUp) => votePost(id, isVoteUp),
 
+    voteComment: (id, isVoteUp) => voteComment(id, isVoteUp),
+    deleteComment: (id) => deleteComment(id),
+    editComment: (id, body) => updateComment(id, body),
+    fetchPostComments: (id) => fetchPostComments(id),
     postNewComment: (postId, comment, author) => postNewComment(postId, comment, author),
     updateComment: (commentId, body) => updateComment(commentId, body)
 };

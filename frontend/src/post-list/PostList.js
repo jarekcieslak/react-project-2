@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, FormControl, Grid, InputLabel, MenuItem, Paper, Select, Typography, withStyles} from "material-ui";
-import {fetchAllPosts} from "../api/Api";
+import {Api} from "../api/Api";
 import {connect} from "react-redux";
 import PostCard from "../shared/PostCard/PostCard";
 import {Link} from "react-router-dom";
@@ -42,7 +42,7 @@ class PostList extends React.Component {
     };
 
     componentDidMount() {
-        this.props.dispatch(fetchAllPosts());
+        this.props.dispatch(Api.fetchAllPosts());
     }
 
 
@@ -137,7 +137,6 @@ class PostList extends React.Component {
         if (order === 'desc') {
             posts = posts.reverse()
         }
-        console.log('should be sorted by', sortBy, key, order);
 
     }
 }

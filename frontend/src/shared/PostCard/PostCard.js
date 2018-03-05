@@ -9,7 +9,7 @@ import Comment from 'material-ui-icons/Comment';
 import {connect} from "react-redux";
 import {ThumbDown, ThumbUp} from "material-ui-icons";
 import MoreVertIcon from "material-ui-icons/MoreVert";
-import {Api, votePost} from "../../api/Api";
+import {Api} from "../../api/Api";
 import {IconButton, Menu, MenuItem} from "material-ui";
 import DateFormat from "../Date/Date";
 import {withRouter} from "react-router";
@@ -49,7 +49,7 @@ class PostCard extends React.Component {
     };
 
     vote = (postId, isUpVote) => {
-        this.props.dispatch(votePost(postId, isUpVote));
+        this.props.dispatch(Api.votePost(postId, isUpVote));
     };
 
     deletePost = (postId) => {

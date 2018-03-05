@@ -28,7 +28,14 @@ import {
     postVoteCommentReceived,
 } from "../comments/PostCommentActions";
 import {mapJsonToComments} from "../comments/PostCommentsMapper";
-import {postAddError, postAddLoad, postAddReceived} from "../post-form/PostFormActions";
+import {
+    postAddError,
+    postAddLoad,
+    postAddReceived,
+    postEditError,
+    postEditLoad,
+    postEditReceived
+} from "../post-form/PostFormActions";
 import {allCategoriesError, allCategoriesLoad, allCategoriesReceived} from "../categories/CategoriesActions";
 
 
@@ -86,6 +93,28 @@ export const createPost = (data) => dispatch => {
     }
 };
 
+// PUT /comments/:id
+// USAGE:
+//     Edit the details of an existing comment
+//
+// PARAMS:
+//     timestamp: timestamp. Get this however you want.
+//     body: String
+export const editPost = (postId, data) => dispatch => {
+    if (data) {
+        dispatch(postEditLoad());
+
+        return genericPutDataHandler(`${BASE_URL}/posts/${postId}`,
+            {
+                timestamp: Date.now(),
+                body: data.body
+            })
+            .then(res => res.json())
+            .then(data => dispatch(postEditReceived(data)))
+            .catch(error => dispatch(postEditError()))
+    }
+};
+
 
 export const votePost = (id, isVoteUp) => dispatch => {
     if (id) {
@@ -105,7 +134,7 @@ export const fetchPostComments = (id) => dispatch => {
         return fetch(`${BASE_URL}/posts/${id}/comments`, {headers: AUTH_HEADER})
             .then((res) => res.json())
             .then(data => mapJsonToComments(data))
-            .then(data => new Promise(resolve => setTimeout(() => resolve(dispatch(postCommentsReceived(data))), 500)))
+            .then(data => new Promise(resolve => setTimeout(() => resolve(dispatch(postCommentsReceived(data))), 300)))
             .catch(error => dispatch(postCommentsError()))
     }
 };
@@ -140,16 +169,9 @@ export const postNewComment = (postId, comment, author) => dispatch => {
 export const updateComment = (commentId, body) => dispatch => {
     if (commentId && body) {
         dispatch(postEditCommentLoad());
-        return fetch(`${BASE_URL}/comments/${commentId}`, {
-            headers: {
-                ...AUTH_HEADER,
-                'content-type': 'application/json'
-            },
-            method: 'PUT',
-            body: JSON.stringify({
-                timestamp: Date.now(),
-                body: body
-            })
+        return genericPutDataHandler(`${BASE_URL}/comments/${commentId}`, {
+            timestamp: Date.now(),
+            body: body
         })
             .then(res => res.json())
             .then(data => dispatch(postEditCommentReceived(data)))
@@ -195,6 +217,18 @@ function genericPostDataHandler(url, data) {
     })
 }
 
+function genericPutDataHandler(url, data) {
+    return fetch(url, {
+        headers: {
+            ...AUTH_HEADER,
+            'content-type': 'application/json'
+        },
+        method: 'PUT',
+        body: JSON.stringify(data)
+    })
+
+}
+
 
 // LIST
 export const fetchAllCategories = () => dispatch => {
@@ -210,8 +244,11 @@ export const Api = {
     fetchAllPosts: fetchAllPosts,
     fetchPostDetails: fetchPostDetails,
     fetchAllCategories: () => fetchAllCategories(),
+
     addPost: (data) => createPost(data),
+    editPost: (id, data) => editPost(id, data),
     deletePost: (id) => deletePost(id),
+
     postNewComment: (postId, comment, author) => postNewComment(postId, comment, author),
     updateComment: (commentId, body) => updateComment(commentId, body)
 };

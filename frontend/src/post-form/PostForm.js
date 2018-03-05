@@ -42,11 +42,8 @@ class PostForm extends React.Component {
         category: ''
     };
 
-    submitPost = (event) => {
-        event.preventDefault();
-        this.props.dispatch(Api.addPost(this.state));
-        this.props.history.push('/');
-    };
+    isEdit = this.props.match.url.indexOf('edit') !== -1;
+    params = this.props.match.params;
 
     handleAuthorChange = (event) => this.setState({author: event.target.value});
     handleTitleChange = (event) => this.setState({title: event.target.value});
@@ -60,21 +57,26 @@ class PostForm extends React.Component {
     });
 
 
+    submitPost = (event) => {
+        event.preventDefault();
+        if (!this.isEdit) {
+            this.props.dispatch(Api.addPost(this.state));
+        } else {
+            this.props.dispatch(Api.editPost(this.params.id, this.state))
+        }
+        this.props.history.push('/');
+    };
+
+
     componentDidMount() {
         this.props.dispatch(Api.fetchAllCategories());
-
-        const params = this.props.match.params;
-        const isEdit = this.props.match.url.indexOf('edit') !== -1;
-        if (isEdit && params.id) {
-            this.props.dispatch(fetchPostDetails(params.id));
+        if (this.isEdit && this.params.id) {
+            this.props.dispatch(fetchPostDetails(this.params.id));
         }
     };
 
     componentWillReceiveProps(props, content) {
-        const isEdit = props.match.url.indexOf('edit') !== -1;
-        const params = props.match.params;
-
-        if (isEdit && params.id && props.status === 'ok') {
+        if (this.isEdit && this.params.id && props.status === 'ok') {
             this.setState({
                 author: props.details.author,
                 title: props.details.title,
@@ -95,14 +97,15 @@ class PostForm extends React.Component {
                 {categoriesStatus === 'ok' &&
                 <Paper className={classes.root} elevation={4}>
                     <Typography variant="headline">
-                        {isEdit && <span>Edit post</span>}
-                        {!isEdit && <span>Create new post</span>}
+                        {this.isEdit && <span>Edit post</span>}
+                        {!this.isEdit && <span>Create new post</span>}
                         &nbsp;&nbsp;&nbsp;&nbsp; <Button
                         onClick={(event) => this.testData(event)}>Test data</Button></Typography>
                     <form className={classes.container} noValidate autoComplete="off"
                           onSubmit={(event) => this.submitPost(event)}>
                         <FormControl className={classes.formControl}>
                             <TextField
+                                disabled={this.isEdit}
                                 id="input"
                                 label="Title"
                                 placeholder="Post title goes here..."
@@ -125,6 +128,7 @@ class PostForm extends React.Component {
                             /></FormControl>
                         <FormControl className={classes.formControl}>
                             <TextField
+                                disabled={this.isEdit}
                                 id="input"
                                 label="Author"
                                 placeholder="Johny Bravo"
@@ -136,6 +140,7 @@ class PostForm extends React.Component {
                         <FormControl className={classes.formControl}>
                             <InputLabel htmlFor="category">Category</InputLabel>
                             <Select
+                                disabled={this.isEdit}
                                 value={this.state.category}
                                 onChange={this.handleCategoryChange}
                                 inputProps={{
@@ -150,8 +155,8 @@ class PostForm extends React.Component {
                         <FormControl>
                             <br/><br/>
                             <Button type="submit" variant="raised" color="primary">
-                                {isEdit && <span>Save</span>}
-                                {!isEdit && <span>Create</span>}
+                                {this.isEdit && <span>Save</span>}
+                                {!this.isEdit && <span>Create</span>}
                                 &nbsp;Post</Button>
                         </FormControl>
 

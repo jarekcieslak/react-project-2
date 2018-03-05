@@ -5,6 +5,7 @@ import AppHeader from './shared/Header/AppHeader';
 import {withStyles} from 'material-ui/styles';
 import AppMenu from "./shared/Menu/AppMenu";
 import AppContent from "./shared/Content/AppContent";
+import {Reboot} from "material-ui";
 
 
 const styles = theme => ({
@@ -26,10 +27,12 @@ class App extends Component {
         menuOpen: false
     };
 
+
     render() {
         const {classes} = this.props;
         return (
             <div className={classes.root}>
+                <Reboot />
                 <div className={classes.appFrame}>
                     <AppHeader handleDrawerOpen={this.handleDrawerOpen}></AppHeader>
                     <AppMenu handleDrawerClose={this.handleDrawerClose} menuOpen={this.state.menuOpen}></AppMenu>

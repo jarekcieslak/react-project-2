@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import PostCard from "../shared/PostCard/PostCard";
 import {Link} from "react-router-dom";
 import LoadingSpinner from "../shared/LoadingSpinner/LoadingSpinner";
+import {withRouter} from "react-router";
 
 const styles = theme => ({
     root: {
@@ -46,24 +47,29 @@ class PostList extends React.Component {
 
 
     render() {
-        const {classes} = this.props;
+        const {classes, posts} = this.props;
+        const category = this.props.match.params.category;
+        let postsToDisplay = posts;
+        if (category && posts && posts.length) {
+            postsToDisplay = postsToDisplay.filter(post => post.category === category)
+        }
 
         return (<div>
             {this.props.status === 'loading' && <LoadingSpinner></LoadingSpinner>}
 
             {this.props.status === 'ok' &&
-            <Grid container spacing={24}>
+            <Grid container spacing={24} alignContent='flex-end' alignItems='flex-end'>
                 <Grid item xs={9}>
                     <Typography variant="headline" component="h1">
-                        Post List &nbsp;&nbsp;&nbsp;&nbsp;<Link to='/post/new'><Button>Create post</Button></Link>
+                        Post List {category && (<span>({category})</span>)}&nbsp;&nbsp;&nbsp;&nbsp;<Link to='/post/new'><Button>Create post</Button></Link>
                     </Typography>
                 </Grid>
-                <Grid xs={3} alignContent='flex-end' alignItems='flex-end'>
+                <Grid item xs={3}>
                     <form autoComplete="off">
                         <FormControl className={classes.formControl}>
                             <InputLabel htmlFor="sort-by">Sort by</InputLabel>
                             <Select
-                                autoWidth={'true'}
+                                autoWidth={true}
                                 value={this.state.sortBy}
                                 onChange={this.handleSort}
                                 inputProps={{
@@ -81,7 +87,7 @@ class PostList extends React.Component {
                 </Grid>
 
 
-                {!!this.props.posts && this.props.posts.map((post, index) =>
+                {!!postsToDisplay && postsToDisplay.map((post, index) =>
                     <Grid item md={6} sm={12} xs={12} key={post.id}><PostCard index={index}
                                                                               data={post}></PostCard></Grid>)}
             </Grid>
@@ -109,4 +115,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(PostList));
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(PostList)));

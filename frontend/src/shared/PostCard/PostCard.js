@@ -12,6 +12,7 @@ import MoreVertIcon from "material-ui-icons/MoreVert";
 import {Api, votePost} from "../../api/Api";
 import {IconButton, Menu, MenuItem} from "material-ui";
 import DateFormat from "../Date/Date";
+import {withRouter} from "react-router";
 
 const styles = theme => ({
     card: {
@@ -55,6 +56,10 @@ class PostCard extends React.Component {
         this.props.dispatch(Api.deletePost(postId))
     };
 
+    editPost = (postId, category) => {
+        this.props.history.push(`${category}/${postId}/edit`);
+    };
+
 
     render() {
         const {classes, data, index} = this.props;
@@ -66,7 +71,7 @@ class PostCard extends React.Component {
                     <Link to={`/${data.category}/${data.id}`}>
                         <CardMedia
                             className={classes.media}
-                            image={"https://picsum.photos/850/200/?image=" + (parseInt(index,10) + 5 + Math.floor(Math.random() * 10))}
+                            image={"https://picsum.photos/850/200/?image=" + (parseInt(index, 10) + 40)}
                             title="Contemplative Reptile"
                         />
                     </Link>
@@ -101,7 +106,7 @@ class PostCard extends React.Component {
                             anchorEl={menuAnchorEl}
                             open={Boolean(menuAnchorEl)}
                             onClose={this.handleMenuClose}>
-                            <MenuItem onClick={this.handleMenuClose}>Edit post</MenuItem>
+                            <MenuItem onClick={() => this.editPost(data.id, data.category)}>Edit post</MenuItem>
                             <MenuItem onClick={() => this.deletePost(data.id)}>Delete post</MenuItem>
                         </Menu>
 
@@ -118,4 +123,4 @@ PostCard.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default connect()(withStyles(styles)(PostCard));
+export default withRouter(connect()(withStyles(styles)(PostCard)));

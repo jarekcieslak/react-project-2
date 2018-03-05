@@ -1,5 +1,5 @@
 import React from "react";
-import {fetchPostDetails, votePost} from "../api/Api";
+import {Api, fetchPostDetails, votePost} from "../api/Api";
 import {connect} from "react-redux";
 import {Button, CardMedia, Divider, Grid, IconButton, Menu, MenuItem, Paper, Typography, withStyles} from "material-ui";
 import {withRouter} from "react-router";
@@ -40,6 +40,14 @@ class PostDetails extends React.Component {
     handleMenuClose = () => {
         this.setState({menuAnchorEl: null});
     };
+    handleDeletePost = (postId) => {
+        this.props.dispatch(Api.deletePost(postId));
+        this.props.history.push('/');
+    };
+
+    handleEditPost = (postId, category) => {
+        this.props.history.push(`/${category}/${postId}/edit`);
+    };
 
     componentDidMount() {
         const postId = this.props.match.params.id;
@@ -56,7 +64,12 @@ class PostDetails extends React.Component {
 
         return (
             <div>
-                {status === 'ok' &&
+                {status === 'ok' && !details.id && (
+                    <div>
+                        <br/><br/>
+                        <Typography variant="display3" component="h1">Post not found.</Typography>
+                    </div>)}
+                {status === 'ok' && details.id &&
                 <div>
                     <Grid container justify="center" spacing={24}>
                         <Grid item xs={12}>
@@ -93,8 +106,9 @@ class PostDetails extends React.Component {
                                     anchorEl={menuAnchorEl}
                                     open={Boolean(menuAnchorEl)}
                                     onClose={this.handleMenuClose}>
-                                    <MenuItem onClick={this.handleMenuClose}>Edit post</MenuItem>
-                                    <MenuItem onClick={this.handleMenuClose}>Delete post</MenuItem>
+                                    <MenuItem onClick={() => this.handleEditPost(details.id, details.category)}>Edit
+                                        post</MenuItem>
+                                    <MenuItem onClick={() => this.handleDeletePost(details.id)}>Delete post</MenuItem>
                                 </Menu>
                             </Paper>
                         </Grid>

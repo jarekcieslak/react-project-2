@@ -26,6 +26,7 @@ import {
 } from "../post-details/comments/PostCommentActions";
 import {mapJsonToComments} from "../post-details/comments/PostCommentsMapper";
 import {postAddError, postAddLoad, postAddReceived} from "../post-create/PostCreateActions";
+import {allCategoriesError, allCategoriesLoad, allCategoriesReceived} from "../categories/CategoriesActions";
 
 
 // LIST
@@ -56,7 +57,9 @@ export const deletePost = (id) => dispatch => {
         dispatch(postDeleteLoad());
         return fetch(`${BASE_URL}/posts/${id}`, {method: 'DELETE', headers: AUTH_HEADER})
             .then((res) => res.json())
-            .then(data => {dispatch(postDeleteReceived(data))})
+            .then(data => {
+                dispatch(postDeleteReceived(data))
+            })
             .catch(error => dispatch(postDeleteError()))
     }
 };
@@ -163,9 +166,20 @@ function genericPostDataHandler(url, data) {
 }
 
 
+// LIST
+export const fetchAllCategories = () => dispatch => {
+    dispatch(allCategoriesLoad());
+    return fetch(`${BASE_URL}/categories`, {headers: AUTH_HEADER})
+        .then(res => res.json())
+        .then(data => new Promise(resolve => setTimeout(() => resolve(dispatch(allCategoriesReceived(data))), 300)))
+        .catch(error => dispatch(allCategoriesError()))
+};
+
+
 export const Api = {
     fetchAllPosts: fetchAllPosts,
     fetchPostDetails: fetchPostDetails,
+    fetchAllCategories: () => fetchAllCategories(),
     addPost: (data) => createPost(data),
     deletePost: (id) => deletePost(id)
 };

@@ -4,7 +4,7 @@ import {
     POST_COMMENT_LOAD_SUCCESS,
     POST_DELCOMMENT_LOAD_SUCCESS
 } from "../PostDetailsActions";
-import {POST_ADDCOMMENT_SUCCESS, POST_VOTECOMMENT_SUCCESS} from "./PostCommentActions";
+import {POST_ADDCOMMENT_SUCCESS, POST_EDITCOMMENT_SUCCESS, POST_VOTECOMMENT_SUCCESS} from "./PostCommentActions";
 
 const postCommentsInitialState = {
     data: null,
@@ -52,6 +52,16 @@ function postCommentsReducer(state = postCommentsInitialState, action) {
                 ...state,
                 data: data2
             };
+
+
+        case POST_EDITCOMMENT_SUCCESS:
+            const commentsCopy = Object.assign({}, state.data);
+            commentsCopy[action.data.id] = action.data;
+            return {
+                ...state,
+                data: commentsCopy
+            };
+
 
         default:
             return state

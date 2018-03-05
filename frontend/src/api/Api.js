@@ -20,6 +20,9 @@ import {
     postAddCommentError,
     postAddCommentLoad,
     postAddCommentReceived,
+    postEditCommentError,
+    postEditCommentLoad,
+    postEditCommentReceived,
     postVoteCommentError,
     postVoteCommentLoad,
     postVoteCommentReceived,
@@ -127,8 +130,35 @@ export const postNewComment = (postId, comment, author) => dispatch => {
     }
 };
 
+// PUT /comments/:id
+// USAGE:
+//     Edit the details of an existing comment
+//
+// PARAMS:
+//     timestamp: timestamp. Get this however you want.
+//     body: String
+export const updateComment = (commentId, body) => dispatch => {
+    if (commentId && body) {
+        dispatch(postEditCommentLoad());
+        return fetch(`${BASE_URL}/comments/${commentId}`, {
+            headers: {
+                ...AUTH_HEADER,
+                'content-type': 'application/json'
+            },
+            method: 'PUT',
+            body: JSON.stringify({
+                timestamp: Date.now(),
+                body: body
+            })
+        })
+            .then(res => res.json())
+            .then(data => dispatch(postEditCommentReceived(data)))
+            .catch(error => dispatch(postEditCommentError()))
+    }
+};
 
-export const voteComent = (id, isVoteUp) => dispatch => {
+
+export const voteComment = (id, isVoteUp) => dispatch => {
     if (id) {
         dispatch(postVoteCommentLoad(id));
         return genericPostDataHandler(`${BASE_URL}/comments/${id}`, {option: isVoteUp ? 'upVote' : 'downVote'})
@@ -181,5 +211,7 @@ export const Api = {
     fetchPostDetails: fetchPostDetails,
     fetchAllCategories: () => fetchAllCategories(),
     addPost: (data) => createPost(data),
-    deletePost: (id) => deletePost(id)
+    deletePost: (id) => deletePost(id),
+    postNewComment: (postId, comment, author) => postNewComment(postId, comment, author),
+    updateComment: (commentId, body) => updateComment(commentId, body)
 };

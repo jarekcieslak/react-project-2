@@ -38,24 +38,6 @@ function postDetailsReducer(state = postDetailsInitialState, action) {
                 }
             };
 
-        // case POST_COMMENT_LOAD_START:
-        //   return {
-        //     ...state,
-        //     comments: null,
-        //     statusComments: 'loading'
-        //   };
-        // case POST_COMMENT_LOAD_ERROR:
-        //   return {
-        //     ...state,
-        //     comments: null,
-        //     statusComments: 'error'
-        //   };
-        // case POST_COMMENT_LOAD_SUCCESS:
-        //   return {
-        //     ...state,
-        //     comments: action.data,
-        //     statusComments: 'ok'
-        //   };
         case POST_ADDCOMMENT_SUCCESS:
             return {
                 ...state,
@@ -64,7 +46,6 @@ function postDetailsReducer(state = postDetailsInitialState, action) {
                     commentCount: state.data.commentCount + 1
                 },
             };
-
 
         default:
             return state

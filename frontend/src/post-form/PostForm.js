@@ -33,7 +33,7 @@ const styles = theme => ({
 });
 
 
-class PostCreate extends React.Component {
+class PostForm extends React.Component {
 
     state = {
         title: '',
@@ -174,5 +174,5 @@ function mapStateToProps(state) {
     };
 }
 
-export default withRouter(connect(mapStateToProps)(withStyles(styles)(PostCreate)));
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(PostForm)));
 

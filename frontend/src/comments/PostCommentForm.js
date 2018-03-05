@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, Paper, TextField, withStyles} from "material-ui";
-import {Api} from "../../api/Api";
+import {Api} from "../api/Api";
 import {connect} from "react-redux";
 
 const styles = theme => ({

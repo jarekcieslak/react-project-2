@@ -3,7 +3,7 @@ import {
     POST_COMMENT_LOAD_START,
     POST_COMMENT_LOAD_SUCCESS,
     POST_DELCOMMENT_LOAD_SUCCESS
-} from "../PostDetailsActions";
+} from "../post-details/PostDetailsActions";
 import {POST_ADDCOMMENT_SUCCESS, POST_EDITCOMMENT_SUCCESS, POST_VOTECOMMENT_SUCCESS} from "./PostCommentActions";
 
 const postCommentsInitialState = {

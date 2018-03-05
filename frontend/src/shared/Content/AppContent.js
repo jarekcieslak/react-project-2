@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import {Route, Switch} from "react-router-dom";
 import PostList from "../../post-list/PostList";
 import PostDetails from "../../post-details/PostDetails";
-import PostCreate from "../../post-create/PostCreate";
+import PostCreate from "../../post-form/PostForm";
 import Categories from "../../categories/Categories";
 
 

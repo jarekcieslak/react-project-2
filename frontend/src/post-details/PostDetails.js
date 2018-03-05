@@ -7,7 +7,7 @@ import {ThumbDown, ThumbUp} from "material-ui-icons";
 import DateFormat from "../shared/Date/Date";
 import MoreVertIcon from "material-ui-icons/MoreVert";
 import ErrorMessage from "../shared/ErrorMessage/ErrorMessage";
-import PostComments from "./comments/PostComments";
+import PostComments from "../comments/PostComments";
 import LoadingSpinner from "../shared/LoadingSpinner/LoadingSpinner";
 
 

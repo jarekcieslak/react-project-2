@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Divider, IconButton, Menu, MenuItem, Paper} from "material-ui";
 import {ThumbDown, ThumbUp} from "material-ui-icons";
-import DateFormat from "../../shared/Date/Date";
+import DateFormat from "../shared/Date/Date";
 import MoreVertIcon from "material-ui-icons/MoreVert";
 import PostCommentAdd from "./PostCommentForm";
 

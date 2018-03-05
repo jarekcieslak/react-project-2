@@ -2,10 +2,10 @@ import React from "react";
 import {Divider, Grid, Typography} from "material-ui";
 import PostCommentForm from "./PostCommentForm";
 import PostCommentItem from "./PostCommentItem";
-import {deleteComment, fetchPostComments, voteComment} from "../../api/Api";
-import ErrorMessage from "../../shared/ErrorMessage/ErrorMessage";
+import {deleteComment, fetchPostComments, voteComment} from "../api/Api";
+import ErrorMessage from "../shared/ErrorMessage/ErrorMessage";
 import {connect} from "react-redux";
-import LoadingSpinner from "../../shared/LoadingSpinner/LoadingSpinner";
+import LoadingSpinner from "../shared/LoadingSpinner/LoadingSpinner";
 
 export class PostComments extends React.Component {
 

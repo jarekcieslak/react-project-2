@@ -12,7 +12,6 @@ export const POST_EDITCOMMENT_SUCCESS = 'POST_EDITCOMMENT_SUCCESS';
 export const POST_EDITCOMMENT_ERROR = 'POST_EDITCOMMENT_ERROR';
 
 
-
 export const postAddCommentLoad = () => {
     return {
         type: POST_ADDCOMMENT_START,
@@ -53,7 +52,6 @@ export const postVoteCommentError = (data) => {
         data: null
     }
 };
-
 
 
 export const postEditCommentLoad = (id) => {

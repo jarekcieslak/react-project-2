@@ -26,9 +26,9 @@ import {
     postVoteCommentError,
     postVoteCommentLoad,
     postVoteCommentReceived,
-} from "../post-details/comments/PostCommentActions";
-import {mapJsonToComments} from "../post-details/comments/PostCommentsMapper";
-import {postAddError, postAddLoad, postAddReceived} from "../post-create/PostCreateActions";
+} from "../comments/PostCommentActions";
+import {mapJsonToComments} from "../comments/PostCommentsMapper";
+import {postAddError, postAddLoad, postAddReceived} from "../post-form/PostFormActions";
 import {allCategoriesError, allCategoriesLoad, allCategoriesReceived} from "../categories/CategoriesActions";
 
 

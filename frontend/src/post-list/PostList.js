@@ -48,10 +48,14 @@ class PostList extends React.Component {
 
     render() {
         const {classes, posts} = this.props;
+        const {sortBy} = this.state;
         const category = this.props.match.params.category;
         let postsToDisplay = posts;
         if (category && posts && posts.length) {
             postsToDisplay = postsToDisplay.filter(post => post.category === category)
+        }
+        if (sortBy) {
+            this.handleSorting(sortBy, postsToDisplay);
         }
 
         return (<div>
@@ -61,7 +65,8 @@ class PostList extends React.Component {
             <Grid container spacing={24} alignContent='flex-end' alignItems='flex-end'>
                 <Grid item xs={9}>
                     <Typography variant="headline" component="h1">
-                        Post List {category && (<span>({category})</span>)}&nbsp;&nbsp;&nbsp;&nbsp;<Link to='/post/new'><Button>Create post</Button></Link>
+                        Post List {category && (<span>({category})</span>)}&nbsp;&nbsp;&nbsp;&nbsp;<Link to='/post/new'><Button>Create
+                        post</Button></Link>
                     </Typography>
                 </Grid>
                 <Grid item xs={3}>
@@ -77,10 +82,10 @@ class PostList extends React.Component {
                                     id: 'sort-by',
                                 }}>
                                 <MenuItem value=""><em>None</em></MenuItem>
-                                <MenuItem value={1}>Likes (desc)</MenuItem>
-                                <MenuItem value={2}>Likes(asc)</MenuItem>
-                                <MenuItem value={3}>Date (desc)</MenuItem>
-                                <MenuItem value={4}>Date (asc)</MenuItem>
+                                <MenuItem value={'likes-desc'}>Likes (desc)</MenuItem>
+                                <MenuItem value={'likes-asc'}>Likes(asc)</MenuItem>
+                                <MenuItem value={'date-desc'}>Date (desc)</MenuItem>
+                                <MenuItem value={'date-asc'}>Date (asc)</MenuItem>
                             </Select>
                         </FormControl>
                     </form>
@@ -103,6 +108,37 @@ class PostList extends React.Component {
 
 
         </div>);
+    }
+
+    handleSorting(sortBy, posts) {
+        let key = null;
+        let order = null;
+        if (sortBy.indexOf('likes') !== -1) {
+            key = 'voteScore'
+        } else if (sortBy.indexOf('date') !== -1) {
+            key = 'timestamp'
+        }
+
+        if (sortBy.indexOf('asc') !== -1) {
+            order = 'asc';
+        } else if (sortBy.indexOf('desc') !== -1) {
+            order = 'desc';
+        }
+
+        posts = posts.sort((item1, item2) => {
+            if (item1[key] < item2[key]) {
+                return -1;
+            }
+            if (item1[key] > item2[key]) {
+                return 1;
+            }
+            return 0;
+        });
+        if (order === 'desc') {
+            posts = posts.reverse()
+        }
+        console.log('should be sorted by', sortBy, key, order);
+
     }
 }
 
